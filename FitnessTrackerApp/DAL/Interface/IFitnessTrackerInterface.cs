@@ -9,11 +9,11 @@ namespace FitnessTrackerApp.DAL.Interface
 {
     public interface IFitnessTrackerInterface 
     {
-        Task<IEnumerable<Workout>> GetWorkouts();
-        Task<Workout> GetWorkoutByID(int workoutId);
-        Task<Workout> InsertWorkout(Workout workout);
-        Task<int> DeleteWorkout(int workoutId);
-        Task<bool> UpdateWorkout(Workout workout);
+        IEnumerable<Workout> GetWorkouts();
+        Workout GetWorkoutByID(int workoutId);
+        Workout InsertWorkout(Workout workout);
+        int DeleteWorkout(int workoutId);
+        bool UpdateWorkout(Workout workout);
         void Save();
     }
 }

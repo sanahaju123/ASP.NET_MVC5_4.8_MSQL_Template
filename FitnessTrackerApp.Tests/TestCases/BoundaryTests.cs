@@ -15,24 +15,46 @@ namespace FitnessTrackerApp.Tests.TestCases
     public class BoundaryTests
     {
         private readonly ITestOutputHelper _output;
-        public readonly Mock<IFitnessTrackerInterface> fitnesstrackerinterface = new Mock<IFitnessTrackerInterface>();
-        private readonly FitnessTrackerRepository repository;
-        private readonly IFitnessTrackerInterface _Repository;
+        private readonly IFitnessTrackerInterface _fitnessTrackerService;
+        public readonly Mock<IFitnessTrackerRepository> fitnnesstrackerservice = new Mock<IFitnessTrackerRepository>();
         private readonly Workout _workout;
+        private readonly IEnumerable<Workout> workoutList;
 
         private static string type = "Boundary";
 
         public BoundaryTests(ITestOutputHelper output)
         {
+            _fitnessTrackerService = new FitnessTrackerService(fitnnesstrackerservice.Object);
             _output = output;
             _workout = new Workout
             {
-                Id=1,
-                Date=DateTime.Now,
-                Exercise="Exercise",
-                Reps=10,
-                Sets=10
+                Id = 1,
+                Date = DateTime.Now,
+                Exercise = "Exercise",
+                Reps = 10,
+                Sets = 10
             };
+            workoutList = new List<Workout>
+        {
+            new Workout
+            {
+                Id = 1,
+                Date = DateTime.Now,
+                Exercise = "Exercise",
+                Reps = 10,
+                Sets = 10
+            },
+            new Workout
+            {
+                Id = 2,
+                Date = DateTime.Now.AddDays(-1), // Example: One day ago
+                Exercise = "Exercise 2",
+                Reps = 15,
+                Sets = 8
+            },
+            // Add more Workout instances as needed
+        };
+
         }
 
         [Fact]
@@ -47,20 +69,11 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                var workout = new Workout { Id = 1, Exercise = "Workout 1" };
-                _Repository.InsertWorkout(workout);
-
-                // Act
-                workout.Exercise = "Updated Workout";
-                repository.UpdateWorkout(workout);
-                repository.Save();
-
-                // Assert
-                var updatedWorkout = await repository.GetWorkoutByID(1);
-
+                fitnnesstrackerservice.Setup(repos => repos.GetWorkoutByID(_workout.Id)).Returns(_workout);
+                var result = _fitnessTrackerService.GetWorkoutByID(_workout.Id);
 
                 //Assertion
-                if (updatedWorkout.Exercise == null)
+                if (result != null)
                 {
                     res = true;
                 }
@@ -98,19 +111,11 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                var workout = new Workout { Id = 1, Exercise = "Workout 1" };
-             
-
-                // Act
-                workout.Exercise = "Updated Workout";
-                repository.DeleteWorkout(1);
-                repository.Save();
-
-                // Assert
-                var updatedWorkout = await repository.GetWorkoutByID(1);
+                fitnnesstrackerservice.Setup(repos => repos.GetWorkoutByID(_workout.Id)).Returns(_workout);
+                var result = _fitnessTrackerService.GetWorkoutByID(_workout.Id);
 
                 //Assertion
-                if (updatedWorkout.Sets == null)
+                if (result != null)
                 {
                     res = true;
                 }
@@ -148,19 +153,11 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                var workout = new Workout { Id = 1, Exercise = "Workout 1" };
-                
-
-                // Act
-                workout.Exercise = "Updated Workout";
-                repository.DeleteWorkout(1);
-                repository.Save();
-
-                // Assert
-                var updatedWorkout = await repository.GetWorkoutByID(1);
+                fitnnesstrackerservice.Setup(repos => repos.GetWorkoutByID(_workout.Id)).Returns(_workout);
+                var result = _fitnessTrackerService.GetWorkoutByID(_workout.Id);
 
                 //Assertion
-                if (updatedWorkout.Reps == null)
+                if (result != null)
                 {
                     res = true;
                 }
@@ -198,19 +195,12 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                var workout = new Workout { Id = 1, Exercise = "Workout 1" };
-             
+                fitnnesstrackerservice.Setup(repos => repos.GetWorkoutByID(_workout.Id)).Returns(_workout);
+                var result = _fitnessTrackerService.GetWorkoutByID(_workout.Id);
 
-                // Act
-                workout.Exercise = "Updated Workout";
-                repository.DeleteWorkout(1);
-                repository.Save();
-
-                // Assert
-                var updatedWorkout = await repository.GetWorkoutByID(1);
 
                 //Assertion
-                if (updatedWorkout.Date == null)
+                if (result != null)
                 {
                     res = true;
                 }

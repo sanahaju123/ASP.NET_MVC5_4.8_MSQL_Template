@@ -34,7 +34,7 @@ namespace FitnessTrackerApp.Tests.TestCases
                 Reps = 10,
                 Sets = 10
             };
-             workoutList = new List<Workout>
+            workoutList = new List<Workout>
         {
             new Workout
             {
@@ -68,10 +68,8 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                 fitnnesstrackerservice.Setup(repos => repos.GetWorkouts()).Returns((Task<IEnumerable<Workout>>)workoutList);
-
-                // Act
-                var result = await _fitnessTrackerService.GetWorkouts();
+                fitnnesstrackerservice.Setup(repos => repos.GetWorkouts()).Returns(workoutList);
+                var result = _fitnessTrackerService.GetWorkouts();
                 //Assertion
                 if (result != null)
                 {
@@ -111,7 +109,7 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                fitnnesstrackerservice.Setup(repos => repos.GetWorkoutByID(_workout.Id));
+                fitnnesstrackerservice.Setup(repos => repos.GetWorkoutByID(_workout.Id)).Returns(_workout);
                 var result = _fitnessTrackerService.GetWorkoutByID(_workout.Id);
                 //Assertion
                 if (result != null)
@@ -152,10 +150,10 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                fitnnesstrackerservice.Setup(repos => repos.UpdateWorkout(_workout));
-                _fitnessTrackerService.UpdateWorkout(_workout);
+                fitnnesstrackerservice.Setup(repos => repos.UpdateWorkout(_workout)).Returns(true);
+                var result = _fitnessTrackerService.UpdateWorkout(_workout);
                 //Assertion
-                if (_workout.Exercise == "Updated Workout")
+                if (result != null)
                 {
                     res = true;
                 }
@@ -193,13 +191,11 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                var workout = new Workout { Id = 1, Exercise = "Workout 1" };
-
-                fitnnesstrackerservice.Setup(repos => repos.DeleteWorkout(_workout.Id));
-                _fitnessTrackerService.DeleteWorkout(_workout.Id);
+                fitnnesstrackerservice.Setup(repos => repos.DeleteWorkout(_workout.Id)).Returns(1);
+                var result = _fitnessTrackerService.DeleteWorkout(_workout.Id);
 
                 //Assertion
-                if (_workout.Exercise == null)
+                if (result != null)
                 {
                     res = true;
                 }

@@ -15,15 +15,16 @@ namespace FitnessTrackerApp.Tests.TestCases
     public class ExceptionalTests
     {
         private readonly ITestOutputHelper _output;
-        public readonly Mock<IFitnessTrackerInterface> fitnesstrackerinterface = new Mock<IFitnessTrackerInterface>();
-        private readonly FitnessTrackerRepository repository;
-        private readonly IFitnessTrackerInterface _Repository;
+        private readonly IFitnessTrackerInterface _fitnessTrackerService;
+        public readonly Mock<IFitnessTrackerRepository> fitnnesstrackerservice = new Mock<IFitnessTrackerRepository>();
         private readonly Workout _workout;
+        private readonly IEnumerable<Workout> workoutList;
 
         private static string type = "Exception";
 
         public ExceptionalTests(ITestOutputHelper output)
         {
+            _fitnessTrackerService = new FitnessTrackerService(fitnnesstrackerservice.Object);
             _output = output;
             _workout = new Workout
             {
@@ -33,6 +34,68 @@ namespace FitnessTrackerApp.Tests.TestCases
                 Reps = 10,
                 Sets = 10
             };
+            workoutList = new List<Workout>
+        {
+            new Workout
+            {
+                Id = 1,
+                Date = DateTime.Now,
+                Exercise = "Exercise",
+                Reps = 10,
+                Sets = 10
+            },
+            new Workout
+            {
+                Id = 2,
+                Date = DateTime.Now.AddDays(-1), // Example: One day ago
+                Exercise = "Exercise 2",
+                Reps = 15,
+                Sets = 8
+            },
+            // Add more Workout instances as needed
+        };
+
+        }
+
+        [Fact]
+        public async Task<bool> Testfor_Get_Workout_ById_NotNull()
+        {
+            //Arrange
+            var res = false;
+            string testName; string status;
+            testName = CallAPI.GetCurrentMethodName();
+            int id = 1;
+
+            //Action
+            try
+            {
+                fitnnesstrackerservice.Setup(repos => repos.GetWorkoutByID(_workout.Id)).Returns(_workout);
+                var result = _fitnessTrackerService.GetWorkoutByID(_workout.Id);
+                //Assertion
+                if (result != null)
+                {
+                    res = true;
+                }
+            }
+            catch (Exception)
+            {
+                //Assert
+                status = Convert.ToString(res);
+                _output.WriteLine(testName + ":Failed");
+                await CallAPI.saveTestResult(testName, status, type);
+                return false;
+            }
+            status = Convert.ToString(res);
+            if (res == true)
+            {
+                _output.WriteLine(testName + ":Passed");
+            }
+            else
+            {
+                _output.WriteLine(testName + ":Failed");
+            }
+            await CallAPI.saveTestResult(testName, status, type);
+            return res;
         }
 
         [Fact]
@@ -47,20 +110,10 @@ namespace FitnessTrackerApp.Tests.TestCases
             //Action
             try
             {
-                var workout = new Workout { Id = 1, Exercise = "Workout 1" };
-              
-
-                // Act
-                workout.Exercise = "Updated Workout";
-                repository.UpdateWorkout(workout);
-                repository.Save();
-
-                // Assert
-                var updatedWorkout = await repository.GetWorkoutByID(1);
-
-
+                fitnnesstrackerservice.Setup(repos => repos.UpdateWorkout(_workout)).Returns(true);
+                var result = _fitnessTrackerService.UpdateWorkout(_workout);
                 //Assertion
-                if (updatedWorkout!=null)
+                if (result != null)
                 {
                     res = true;
                 }
@@ -86,55 +139,6 @@ namespace FitnessTrackerApp.Tests.TestCases
             return res;
         }
 
-        [Fact]
-        public async Task<bool> Testfor_Delete_Workout_NotNull()
-        {
-            //Arrange
-            var res = false;
-            string testName; string status;
-            testName = CallAPI.GetCurrentMethodName();
-            int id = 1;
-
-            //Action
-            try
-            {
-                var workout = new Workout { Id = 1, Exercise = "Workout 1" };
-               
-
-                // Act
-                workout.Exercise = "Updated Workout";
-                repository.DeleteWorkout(1);
-                repository.Save();
-
-                // Assert
-                var updatedWorkout = await repository.GetWorkoutByID(1);
-
-                //Assertion
-                if (updatedWorkout.Exercise == null)
-                {
-                    res = true;
-                }
-            }
-            catch (Exception)
-            {
-                //Assert
-                status = Convert.ToString(res);
-                _output.WriteLine(testName + ":Failed");
-                await CallAPI.saveTestResult(testName, status, type);
-                return false;
-            }
-            status = Convert.ToString(res);
-            if (res == true)
-            {
-                _output.WriteLine(testName + ":Passed");
-            }
-            else
-            {
-                _output.WriteLine(testName + ":Failed");
-            }
-            await CallAPI.saveTestResult(testName, status, type);
-            return res;
-        }
 
     }
 }

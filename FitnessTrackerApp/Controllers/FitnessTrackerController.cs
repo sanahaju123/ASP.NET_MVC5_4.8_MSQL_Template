@@ -25,42 +25,52 @@ namespace FitnessTrackerApp.Controllers
         // GET: FitnessTracker
         public ActionResult Index()
         {
+            //write your code here
             throw new NotImplementedException();
         }
 
-        public async Task<ViewResult> Details(int id)
+        public ViewResult Details(int id)
         {
+            //write your code here
             throw new NotImplementedException();
         }
 
         public ActionResult Create()
         {
+            //write your code here
             throw new NotImplementedException();
         }
 
         [HttpPost]
         public ActionResult Create(Workout workout)
         {
+            //write your code here
             throw new NotImplementedException();
         }
 
-        public async Task<ActionResult> EditAsync(int id)
+        public ActionResult EditAsync(int id)
         {
+            //write your code here
             throw new NotImplementedException();
         }
+
         [HttpPost]
         public ActionResult Edit(Workout workout)
         {
+            //write your code here
             throw new NotImplementedException();
         }
 
-        public async Task<ActionResult> Delete(int id, bool? saveChangesError)
+        public ActionResult Delete(int id, bool? saveChangesError)
         {
+            //write your code here
             throw new NotImplementedException();
         }
+
         [HttpPost, ActionName("Delete")]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
+            //write your code here
             throw new NotImplementedException();
         }
     }

@@ -16,37 +16,45 @@ namespace FitnessTrackerApp.DAL.Repository
         {
             this._context = Context;
         }
-        public async Task<IEnumerable<Workout>> GetWorkouts()
+        public IEnumerable<Workout> GetWorkouts()
         {
+            //write your code here
             throw new NotImplementedException();
         }
-        public async Task<Workout> GetWorkoutByID(int id)
+        public Workout GetWorkoutByID(int id)
         {
+            //write your code here
             throw new NotImplementedException();
         }
-        public async Task<Workout> InsertWorkout(Workout workout)
+        public Workout InsertWorkout(Workout workout)
         {
+            //write your code here
             throw new NotImplementedException();
         }
-        public async Task<int> DeleteWorkout(int workoutID)
+        public int DeleteWorkout(int workoutID)
         {
+            //write your code here
             throw new NotImplementedException();
         }
-        public async Task<bool> UpdateWorkout(Workout workout)
+        public bool UpdateWorkout(Workout workout)
         {
+            //write your code here
             throw new NotImplementedException();
         }
         public void Save()
         {
+            //write your code here
             throw new NotImplementedException();
         }
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
+            //write your code here
             throw new NotImplementedException();
         }
         public void Dispose()
         {
+            //write your code here
             throw new NotImplementedException();
         }
     }
