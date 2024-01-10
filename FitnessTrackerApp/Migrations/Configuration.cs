@@ -9,8 +9,7 @@ namespace FitnessTrackerApp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "FitnessTrackerApp.DAL.FitnessTrackerDbContext";
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(FitnessTrackerApp.DAL.FitnessTrackerDbContext context)
